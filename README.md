@@ -257,20 +257,7 @@
         </div>
     </div>
 
-    <!-- 5. データバックアップ / 復元 (端末間の引き継ぎ用) -->
-    <div class="card backup-section">
-        <h3>💾 データの引き継ぎ・バックアップ</h3>
-        <p style="font-size: 0.85em; color: #555; margin-bottom: 10px;">
-            別のPCやスマホへデータを移す場合は、ここでバックアップファイルを保存・読み込みしてください。
-        </p>
-        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-            <button onclick="exportData()" class="btn">データ出力（JSON）</button>
-            <div style="display: flex; align-items: center; gap: 5px;">
-                <input type="file" id="importFile" accept=".json" style="font-size: 0.85em; width: auto;">
-                <button onclick="importData()" class="btn" style="background-color: #17a2b8;">データインポート</button>
-            </div>
-        </div>
-    </div>
+   
 </div>
 
 <script>
@@ -501,52 +488,7 @@
                   .replace(/'/g, '&#039;');
     }
 
-    /* データ出力（JSONファイルとして保存） */
-    function exportData() {
-        if (booksData.length === 0) {
-            alert("出力する読書データがありません。");
-            return;
-        }
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(booksData, null, 2));
-        const downloadAnchor = document.createElement('a');
-        downloadAnchor.setAttribute("href", dataStr);
-        downloadAnchor.setAttribute("download", "reading_data.json");
-        document.body.appendChild(downloadAnchor);
-        downloadAnchor.click();
-        downloadAnchor.remove();
-    }
-
-    /* データインポート（JSONファイルから復元） */
-    function importData() {
-        const fileInput = document.getElementById('importFile');
-        const file = fileInput.files[0];
-
-        if (!file) {
-            alert("インポートするJSONファイル（reading_data.json）を選択してください。");
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                const importedData = JSON.parse(e.target.result);
-                if (Array.isArray(importedData)) {
-                    if (confirm("現在の読書データが置き換わります。インポートを実行しますか？")) {
-                        booksData = importedData;
-                        saveData();
-                        renderYearlyStats();
-                        renderBooks();
-                        alert("データの読み込みが完了しました！");
-                    }
-                } else {
-                    alert("ファイル形式が正しくありません。");
-                }
-            } catch (err) {
-                alert("ファイルの読み込みに失敗しました。正しく出力されたJSONファイルを選択してください。");
-            }
-        };
-        reader.readAsText(file);
-    }
+   
 </script>
 
 </body>
