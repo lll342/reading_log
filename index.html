@@ -105,20 +105,7 @@
         </div>
     </div>
 
-<!-- データバックアップ・復元エリア -->
-<div style="margin: 30px auto; max-width: 800px; padding: 15px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px;">
-    <h3 style="margin-top: 0; font-size: 1.1em;">💾 データの引き継ぎ・バックアップ</h3>
-    <p style="font-size: 0.85em; color: #666;">別のPCやスマホへデータを移す場合は、ここでバックアップファイルを保存・読み込みしてください。</p>
-    
-    <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 10px;">
-        <button onclick="exportData()" style="padding: 8px 15px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">データ出力（JSON）</button>
-        
-        <div style="display: flex; align-items: center; gap: 5px;">
-            <input type="file" id="importFile" accept=".json" style="font-size: 0.9em;">
-            <button onclick="importData()" style="padding: 8px 15px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">データインポート</button>
-        </div>
-    </div>
-</div>
+
     <!-- 画面②：本新規登録・編集画面 -->
     <div id="page-register" class="page-section">
         <button onclick="navigateTo('page-top')" class="btn-secondary">← トップに戻る</button>
@@ -679,11 +666,7 @@ function renderYearlyStats() {
             return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
         }
 
-        // ★ここに追加！★
-        
-    </script>
-</body>
-</html>
+    
     </script>
 </body>
 </html>
