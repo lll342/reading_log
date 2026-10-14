@@ -383,6 +383,12 @@ function renderYearlyStats() {
 
             const start = document.getElementById('startDate').value;
             const end = document.getElementById('endDate').value;
+
+            /* ★フールプルーフ判定：読み始めた日 ＞ 読み終えた日 の場合に保存を禁止 */
+if (start && end && new Date(start) > new Date(end)) {
+    alert("【入力エラー】\n「読み始めた年月日」が「読み終えた年月日」より後の日付になっています。\n日付を確認して再度入力してください。");
+    return;
+}
             let readDaysText = "未記録";
             if (start && end) {
                 const diffTime = Math.abs(new Date(end) - new Date(start));
