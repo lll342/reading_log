@@ -73,15 +73,7 @@
     </style>
 </head>
 <body>
-<!-- データバックアップ・復元エリア -->
-    <div class="backup-container">
-        <h4 style="margin: 0 0 8px 0;">💾 データのバックアップ・復元</h4>
-        <button type="button" onclick="exportData()">データを保存（JSON出力）</button>
-        <span style="margin-left: 15px;">
-            <label for="importFile" style="display:inline;">復元:</label>
-            <input type="file" id="importFile" accept=".json" onchange="importData(event)" style="width:auto;">
-        </span>
-    </div>
+
     <!-- 画面①：トップ画面 -->
     <div id="page-top" class="page-section active">
         <h1>読書感想文記録システム</h1>
@@ -236,7 +228,15 @@
             <button onclick="saveAuthorNote()">作者情報を保存する</button>
         </div>
     </div>
-
+<!-- データバックアップ・復元エリア -->
+    <div class="backup-container">
+        <h4 style="margin: 0 0 8px 0;">💾 データのバックアップ・復元</h4>
+        <button type="button" onclick="exportData()">データを保存（JSON出力）</button>
+        <span style="margin-left: 15px;">
+            <label for="importFile" style="display:inline;">復元:</label>
+            <input type="file" id="importFile" accept=".json" onchange="importData(event)" style="width:auto;">
+        </span>
+    </div>
     <script>
         let booksData = JSON.parse(localStorage.getItem('booksData')) || [];
         let authorsData = JSON.parse(localStorage.getItem('authorsData')) || {};
