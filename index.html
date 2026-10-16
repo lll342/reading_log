@@ -62,10 +62,26 @@
         .stat-item { background: #e9ecef; padding: 10px; border-radius: 6px; text-align: center; }
         .stat-year { font-size: 0.85em; color: #666; }
         .stat-count { font-size: 1.4em; font-weight: bold; color: #007bff; }
+        /* バックアップ領域スタイル */
+        .backup-container {
+            margin: 15px 0;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+        }
     </style>
 </head>
 <body>
-
+<!-- データバックアップ・復元エリア -->
+    <div class="backup-container">
+        <h4 style="margin: 0 0 8px 0;">💾 データのバックアップ・復元</h4>
+        <button type="button" onclick="exportData()">データを保存（JSON出力）</button>
+        <span style="margin-left: 15px;">
+            <label for="importFile" style="display:inline;">復元:</label>
+            <input type="file" id="importFile" accept=".json" onchange="importData(event)" style="width:auto;">
+        </span>
+    </div>
     <!-- 画面①：トップ画面 -->
     <div id="page-top" class="page-section active">
         <h1>読書感想文記録システム</h1>
@@ -671,7 +687,47 @@ if (start && end && new Date(start) > new Date(end)) {
         function escapeHtml(str) {
             return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
         }
+/* データバックアップ（エクスポート）機能 */
+        function exportData() {
+            const backupData = {
+                booksData: JSON.parse(localStorage.getItem('booksData')) || [],
+                authorsData: JSON.parse(localStorage.getItem('authorsData')) || {}
+            };
+            const jsonStr = JSON.stringify(backupData, null, 2);
+            const blob = new Blob([jsonStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `reading_app_backup_${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
 
+        /* データ復元（インポート）機能 */
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.booksData && data.authorsData) {
+                        if (confirm('現在のデータを上書きして復元しますか？')) {
+                            localStorage.setItem('booksData', JSON.stringify(data.booksData));
+                            localStorage.setItem('authorsData', JSON.stringify(data.authorsData));
+                            alert('データの復元が完了しました。');
+                            location.reload();
+                        }
+                    } else {
+                        alert('正しいバックアップファイルではありません。');
+                    }
+                } catch (err) {
+                    alert('ファイルの読み込みに失敗しました。正しいJSONファイルか確認してください。');
+                }
+            };
+            reader.readAsText(file);
+        }
     
     </script>
 </body>
